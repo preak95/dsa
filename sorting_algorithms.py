@@ -42,14 +42,77 @@ def insertion_sort(unsorted_list):
 			print(unsorted_list)
 	return unsorted_list
 
+def gap_sort(unsorted_list, gap):
+	for i in range(len(unsorted_list)):
+		if i + gap < len(unsorted_list):
+			if unsorted_list[i] > unsorted_list[i+int(gap)]:
+				hp.swap(unsorted_list, i, i + int(gap))
+
+def shell_sort(unsorted_list):
+	gap = int(len(unsorted_list) / 2)
+	gap = len(unsorted_list) - 1
+	while gap > 0:
+		gap_sort(unsorted_list, gap)
+		print("Gap: " + str(gap) + " " + str(unsorted_list))
+		gap = int (gap / 2)
+
+	return unsorted_list
+
+def merge_sort(unsorted_list):
+	if len(unsorted_list) > 1:
+		#print(len(unsorted_list))
+		middle = len(unsorted_list) // 2
+		#print("Middle: " + str(middle))
+		left_half = unsorted_list[:middle]
+		right_half = unsorted_list[middle:]
+
+		print("------------------------------------------------------")
+		print("Sorting: " + str(left_half) + "			" + str(right_half))
+		merge_sort(left_half)
+		merge_sort(right_half)
+
+		print("Merging: " + str(left_half) + "			" + str(right_half))
+		print("------------------------------------------------------")
+
+		i = j = k = 0
+
+		"""
+		This part of merging will stop as soon as one of i, j reaches
+		the middle or the end respectively. See next, comment.
+		"""
+		while i < len(left_half) and j < len(right_half):
+			if left_half[i] < right_half[j]:
+				unsorted_list[k] = left_half[i]
+				i += 1
+			else:
+				unsorted_list[k] = right_half[j]
+				j += 1
+			k += 1
+
+		# Now, for the remaining elements, you have to just traverse 
+		# and put them into the list
+
+		while i < len(left_half):
+			unsorted_list[k] = left_half[i]
+			i += 1
+			k += 1
+
+		while j < len(right_half):
+			unsorted_list[k] = right_half[j]
+			j += 1
+			k += 1
+
+		return unsorted_list
+
 
 
 """The Main function starts here"""
 
 def main():
-	unsorted_list = hp.get_unsorted_list()
+	unsorted_list = hp.get_unsorted_list(13	)
 	print(unsorted_list)
-	sorted_list = insertion_sort(unsorted_list)
+	#unsorted_list = [2, 3, 1, 5, 0]
+	sorted_list = merge_sort(unsorted_list)
 
 	print("\n ====== Sorted List ====== \n")
 	print(sorted_list)

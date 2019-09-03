@@ -2,19 +2,19 @@ import random
 
 """====================== Helper Functions ======================"""
 
-def get_unique_random_number(unsorted_list):
+def get_unique_random_number(unsorted_list, size):
 	# Returns a unique random number which isn't already present in list
-	random_num = random.randint(0,10)
+	random_num = random.randint(0,size)
 	if random_num in unsorted_list:
-		return get_unique_random_number(unsorted_list)
+		return get_unique_random_number(unsorted_list, size)
 	else:
 		return random_num
 
-def get_unsorted_list():
-	# Create a list of 100 random numbers between 0-1000
+def get_unsorted_list(size):
+	# Create a list of "size" random numbers between 0-1000
 	random_list = []
-	for i in range(0, 10):
-		random_num = get_unique_random_number(random_list)
+	for i in range(0, size):
+		random_num = get_unique_random_number(random_list, size)
 		random_list.append(random_num)
 
 	return random_list
@@ -43,3 +43,34 @@ def find_minimum(unsorted_list, i, j):
 			minimum = unsorted_list[x]
 			min_index = x
 	return minimum, min_index
+
+def merge_lists(list1, list2):
+	i = j = k = 0
+	merged_list = [0] * ((len(list1) + len(list2)))
+	"""
+	This part of merging will stop as soon as one of i, j reaches
+	the middle or the end respectively. See next, comment.
+	"""
+	while i < len(list1) and j < len(list2):
+		if list1[i] < list2[j]:
+			merged_list[k] = list1[i]
+			i += 1
+		else:
+			merged_list[k] = list2[j]
+			j += 1
+		k += 1
+
+	# Now, for the remaining elements, you have to just traverse 
+	# and put them into the list
+
+	while i < len(list1):
+		merged_list[k] = list1[i]
+		i += 1
+		k += 1
+
+	while j < len(list2):
+		merged_list[k] = list2[j]
+		j += 1
+		k += 1
+
+	return merged_list
